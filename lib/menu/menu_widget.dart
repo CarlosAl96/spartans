@@ -271,6 +271,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                             onTap: () async {
                               await usersProvider
                                   .getUsers(authProvider.auth.access ?? '');
+
                               context.pushNamed('Ranking');
                             },
                             child: Container(
@@ -664,6 +665,8 @@ class _MenuWidgetState extends State<MenuWidget> {
 
                               // context.goNamedAuth(
                               //     'WizardRegistro', context.mounted);
+
+                              context.pushNamed('loginPage');
                             },
                             child: Container(
                               width: double.infinity,

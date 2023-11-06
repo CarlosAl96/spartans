@@ -45,6 +45,10 @@ class _GameListsWidgetState extends State<GameListsWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+    String looserPlayerName =
+        widget.challenge.playerOne!.id == widget.challenge.playerWinner!.id
+            ? widget.challenge.playerTwo!.name
+            : widget.challenge.playerOne!.name;
     return ListView(
       padding: EdgeInsets.zero,
       primary: false,
@@ -98,23 +102,9 @@ class _GameListsWidgetState extends State<GameListsWidget> {
                                 ? (widget.challenge.playerOne!.name +
                                     ' vs ' +
                                     widget.challenge.playerTwo!.name)
-                                : widget.challenge.playerOne!.name +
-                                    ' (' +
-                                    widget
-                                        .challenge
-                                        .gameInfo!['number_of_games_won']
-                                            ['player_one']
-                                        .toString() +
-                                    ')' +
-                                    ' vs ' +
-                                    '(' +
-                                    widget
-                                        .challenge
-                                        .gameInfo!['number_of_games_won']
-                                            ['player_two']
-                                        .toString() +
-                                    ') ' +
-                                    widget.challenge.playerTwo!.name,
+                                : widget.challenge.playerWinner!.name +
+                                    ' def ' +
+                                    looserPlayerName,
                             style: FlutterFlowTheme.of(context).titleMedium,
                           ),
                           Padding(

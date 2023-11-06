@@ -342,6 +342,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                                 .authCredentials(request);
                                             if (authProvider.error.isEmpty) {
                                               if (acceptChallengeProvider
+                                                      .challengeIDResults !=
+                                                  'none') {
+                                                GoRouter.of(context).push(
+                                                  '/confirmResult/${acceptChallengeProvider.challengeIDResults}',
+                                                  extra: {
+                                                    "comesFromDirectLink":
+                                                        false,
+                                                  },
+                                                );
+                                              } else if (acceptChallengeProvider
                                                       .challengeID !=
                                                   'none') {
                                                 GoRouter.of(context).push(

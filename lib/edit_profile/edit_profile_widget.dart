@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:spartans/controllers/auth/auth_controller.dart';
 import 'package:spartans/controllers/auth/register_controller.dart';
+import 'package:spartans/models/auth/auth_response.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -38,6 +39,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     _model.changePasswordController1 ??= TextEditingController();
     _model.changePasswordController2 ??= TextEditingController();
     _model.clubController ??= TextEditingController();
+    _model.dropDownValueController ??= FormFieldController<String>(null);
+
+    final authProvider = context.read<AuthController>();
+
+    _model.firstNameController.text = authProvider.auth.user!.name;
+    _model.lastNameController.text = authProvider.auth.user!.lastName!;
+    _model.phoneNumberController.text = authProvider.auth.user!.phone!;
+    //_model.clubController.text = authProvider.auth.user!.club!;
+    _model.dropDownValueController!.value = 'C';
+    _model.dropDownValue = authProvider.auth.user!.category['name']!;
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -64,12 +75,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
     final registerProvider = context.watch<RegisterController>();
     final authProvider = context.watch<AuthController>();
-
-    _model.firstNameController.text = authProvider.auth.user!.name;
-    _model.lastNameController.text = authProvider.auth.user!.lastName!;
-    _model.phoneNumberController.text = authProvider.auth.user!.phone!;
-    //_model.clubController.text = authProvider.auth.user!.club!;
-    _model.dropDownValue = authProvider.auth.user!.category['name']!;
 
     return Title(
         title: 'editProfile',
@@ -651,9 +656,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                   width: double.infinity,
                                   decoration: BoxDecoration(),
                                   child: FlutterFlowDropDown<String>(
-                                    controller:
-                                        _model.dropDownValueController ??=
-                                            FormFieldController<String>(null),
+                                    controller: _model.dropDownValueController!,
                                     options: registerProvider.categoriesList,
                                     onChanged: (val) async {
                                       setState(
@@ -767,12 +770,18 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
                                         if (data.isNotEmpty) {
                                           print("se esta ejecutando");
-                                          await registerProvider.editDataUser(
-                                              authProvider.auth.access!,
-                                              authProvider.auth.user!.id,
-                                              platformFile!,
-                                              data);
-                                          if (registerProvider.error.isEmpty) {
+                                          final response =
+                                              await registerProvider
+                                                  .editDataUser(
+                                                      authProvider.auth.access!,
+                                                      authProvider
+                                                          .auth.user!.id,
+                                                      platformFile!,
+                                                      data);
+                                          if (response.containsKey('user')) {
+                                            authProvider.setAuth(
+                                                AuthResponseModel.fromJson(
+                                                    response));
                                             context.pop();
                                           }
                                         }

@@ -187,8 +187,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ),
             FFRoute(
               name: 'confirmResult',
-              path: 'confirmResult',
-              builder: (context, params) => ConfirmResultWidget(),
+              path: 'confirmResult/:id',
+              builder: (context, params) => ConfirmResultWidget(
+                id: params.getParam('id', ParamType.String)
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

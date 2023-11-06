@@ -88,14 +88,6 @@ class _HomeWidgetState extends State<HomeWidget> {
               appBar: AppBar(
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                 automaticallyImplyLeading: false,
-                title: Text(
-                  'Home',
-                  style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 22.0,
-                      ),
-                ),
                 centerTitle: false,
                 elevation: 0.0,
               ),

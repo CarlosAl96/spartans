@@ -13,6 +13,7 @@ class ChallengeController extends ChangeNotifier {
   String error = '';
   ChallengeModel lastChallenge = ChallengeModel();
   ChallengeModel lastChallengeUser = ChallengeModel();
+  ChallengeModel chalengeById = ChallengeModel();
 
   Future<bool> setChallenge(String accessToken, String id, DateTime datePicked,
       TimeOfDay hourPicked) async {
@@ -78,6 +79,33 @@ class ChallengeController extends ChangeNotifier {
           lastChallenge =
               ChallengeModel.fromJson(challengeResponse.results![0]);
         }
+        notifyListeners();
+
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
+  }
+
+  Future<bool> getChallengeById(String accessToken, String idChallenge) async {
+    try {
+      var uri = Uri.parse(APIREST.challengeURL + idChallenge);
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+
+        chalengeById = ChallengeModel.fromJson(jsonDecode(response.body));
+
         notifyListeners();
 
         return true;

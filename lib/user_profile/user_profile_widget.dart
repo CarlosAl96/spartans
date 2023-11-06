@@ -49,6 +49,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     context.watch<FFAppState>();
 
     final usersProvider = context.watch<UsersListController>();
+    final authProvider = context.watch<AuthController>();
     final challengeProvider = context.watch<ChallengeController>();
 
     return Title(
@@ -395,32 +396,56 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                     ),
                                   ),
                                 ),
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  context.pushNamed('matchResults');
-                                },
-                                text: 'Reportar Resultado',
-                                options: FFButtonOptions(
-                                  height: 40.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 0.0, 10.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).secondary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                      ),
-                                  elevation: 2.0,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
+                              FutureBuilder(
+                                  future: futureChallenge,
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Center();
+                                    }
+
+                                    final result = snapshot.data;
+
+                                    if (result == true &&
+                                        challengeProvider.lastChallenge
+                                                .statusChallenge ==
+                                            'aceptado' &&
+                                        authProvider.auth.user!.id ==
+                                            challengeProvider
+                                                .lastChallenge.playerOne!.id) {
+                                      return FFButtonWidget(
+                                        onPressed: () async {
+                                          context.pushNamed('matchResults');
+                                        },
+                                        text: 'Reportar Resultado',
+                                        options: FFButtonOptions(
+                                          height: 40.0,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 0.0, 10.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                          elevation: 2.0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      );
+                                    }
+                                    return Center();
+                                  }),
                             ],
                           ),
                         ),
