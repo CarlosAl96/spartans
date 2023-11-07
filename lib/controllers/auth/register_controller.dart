@@ -91,7 +91,7 @@ class RegisterController extends ChangeNotifier {
       var uri = Uri.parse(APIREST.usersURL);
       var request = http.MultipartRequest('POST', uri)
         ..headers.addAll({
-          'Accept': '/',
+          'Accept': '*/*',
           "Content-Type": "multipart/form-data"
         }) //if u have headers, basic auth, token bearer... Else remove line
         ..fields.addAll(requestBody);

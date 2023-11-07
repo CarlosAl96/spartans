@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:spartans/controllers/auth/register_controller.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -296,6 +297,9 @@ class _WizardRegistro2WidgetState extends State<WizardRegistro2Widget>
                                 child: TextFormField(
                                   controller: _model.phoneNumberController,
                                   obscureText: false,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
                                   decoration: InputDecoration(
                                     labelText: 'Teléfono',
                                     labelStyle:
@@ -410,10 +414,18 @@ class _WizardRegistro2WidgetState extends State<WizardRegistro2Widget>
                                             context.read<RegisterController>();
                                         if (_formKey.currentState!.validate() &&
                                             _model.dropDownValue != null) {
+                                          final numberFinal = '+506' +
+                                              ' ' +
+                                              _model.phoneNumberController.text
+                                                  .substring(0, 4) +
+                                              '-' +
+                                              _model.phoneNumberController.text
+                                                  .substring(3, 7);
+                                          print(numberFinal);
                                           registerProvider.insertStep2(
                                               _model.firstNameController.text,
                                               _model.lastNameController.text,
-                                              _model.phoneNumberController.text,
+                                              numberFinal,
                                               _model.dropDownValue!);
                                           context.pushNamed(
                                             'WizardRegistro3',

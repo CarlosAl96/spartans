@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'menu_model.dart';
 export 'menu_model.dart';
+import 'dart:html' as html;
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   size: 30.0,
                 ),
                 onPressed: () {
-                  print('IconButton pressed ...');
+                  context.pop();
                 },
               ),
               title: Text(
@@ -666,7 +667,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                               // context.goNamedAuth(
                               //     'WizardRegistro', context.mounted);
 
-                              context.pushNamed('loginPage');
+                              html.window.location.href = '/loginPage';
                             },
                             child: Container(
                               width: double.infinity,

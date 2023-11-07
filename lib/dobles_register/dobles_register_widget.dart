@@ -82,7 +82,7 @@ class _DoblesRegisterWidgetState extends State<DoblesRegisterWidget>
                   size: 30.0,
                 ),
                 onPressed: () {
-                  print('IconButton pressed ...');
+                  context.pop();
                 },
               ),
               title: Text(

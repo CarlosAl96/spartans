@@ -96,7 +96,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 size: 30.0,
               ),
               onPressed: () {
-                print('IconButton pressed ...');
+                context.pop();
               },
             ),
             title: Text(

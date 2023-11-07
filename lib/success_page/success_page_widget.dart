@@ -1,3 +1,5 @@
+import 'package:spartans/controllers/auth/auth_controller.dart';
+
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -127,14 +129,9 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget>
                         EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed(
-                          'Home',
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.leftToRight,
-                            ),
-                          },
+                        print(context.read<AuthController>().auth.user!.name);
+                        GoRouter.of(context).push(
+                          '/home/true/none',
                         );
                       },
                       text: 'Ir al home',

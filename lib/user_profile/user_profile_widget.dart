@@ -405,7 +405,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
                                     final result = snapshot.data;
 
-                                    if (result == true &&
+                                    if (result! &&
                                         challengeProvider.lastChallenge
                                                 .statusChallenge ==
                                             'aceptado' &&
