@@ -4,6 +4,7 @@ class APIREST {
   static const usersURL = baseURL + 'users/';
   static const categoryURL = baseURL + 'category/';
   static const challengeURL = baseURL + 'challenge/';
+  static const tournamentURL = baseURL + 'tournament/';
   static const recoveryPasswordURL = baseURL + 'auth/forgot-password/';
   static const recoveryPasswordSendURL = baseURL + 'auth/change-password/';
 }

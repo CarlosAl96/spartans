@@ -1,3 +1,5 @@
+import 'package:spartans/controllers/auth/auth_controller.dart';
+import 'package:spartans/controllers/tournament/tournament_controller.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -56,6 +58,9 @@ class _SinglesRegisterWidgetState extends State<SinglesRegisterWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+    final tournamentProvider = context.watch<TournamentController>();
+    final authProvider = context.watch<AuthController>();
+
     return Title(
         title: 'singlesRegister',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
@@ -80,7 +85,12 @@ class _SinglesRegisterWidgetState extends State<SinglesRegisterWidget>
                   size: 30.0,
                 ),
                 onPressed: () {
-                  context.pop();
+                  GoRouter.of(context).push(
+                    '/home/true/none',
+                    extra: {
+                      "comesFromDirectLink": false,
+                    },
+                  );
                 },
               ),
               title: Text(
@@ -138,7 +148,8 @@ class _SinglesRegisterWidgetState extends State<SinglesRegisterWidget>
                             style: FlutterFlowTheme.of(context).displaySmall,
                           ),
                           Text(
-                            'Próxima fecha: ',
+                            'Próxima fecha: ' +
+                                tournamentProvider.tournament.startDate,
                             style: FlutterFlowTheme.of(context).bodyMedium,
                           ),
                           Padding(
@@ -173,6 +184,15 @@ class _SinglesRegisterWidgetState extends State<SinglesRegisterWidget>
                               decoration: BoxDecoration(),
                             ),
                           ),
+                          if (tournamentProvider.error.isNotEmpty)
+                            Center(
+                                child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 16.0, 0.0, 0.0),
+                                    child: Text(
+                                      tournamentProvider.error,
+                                      style: TextStyle(color: Colors.red),
+                                    ))),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 24.0, 0.0, 0.0),
@@ -182,8 +202,22 @@ class _SinglesRegisterWidgetState extends State<SinglesRegisterWidget>
                               children: [
                                 Expanded(
                                   child: FFButtonWidget(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       print('Button-Login pressed ...');
+                                      final response = await tournamentProvider
+                                          .subscribeToTournament(
+                                              authProvider.auth.access!,
+                                              tournamentProvider.tournament.id,
+                                              null);
+
+                                      if (response == 'success') {
+                                        GoRouter.of(context).push(
+                                          '/home/true/none',
+                                          extra: {
+                                            "comesFromDirectLink": false,
+                                          },
+                                        );
+                                      }
                                     },
                                     text: '¡Quiero participar!',
                                     options: FFButtonOptions(

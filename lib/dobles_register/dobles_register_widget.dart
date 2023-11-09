@@ -1,3 +1,6 @@
+import 'package:spartans/controllers/auth/auth_controller.dart';
+import 'package:spartans/controllers/tournament/tournament_controller.dart';
+
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -57,6 +60,9 @@ class _DoblesRegisterWidgetState extends State<DoblesRegisterWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+
+    final tournamentProvider = context.watch<TournamentController>();
+    final authProvider = context.watch<AuthController>();
 
     return Title(
         title: 'doblesRegister',
@@ -211,9 +217,12 @@ class _DoblesRegisterWidgetState extends State<DoblesRegisterWidget>
                                     ),
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,
-                                    validator: _model
-                                        .teamMateControllerValidator
-                                        .asValidator(context),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Este campo es requerido';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ],
@@ -242,8 +251,29 @@ class _DoblesRegisterWidgetState extends State<DoblesRegisterWidget>
                               children: [
                                 Expanded(
                                   child: FFButtonWidget(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       print('Button-Login pressed ...');
+
+                                      if (_model
+                                          .teamMateController.text.isNotEmpty) {
+                                        final response =
+                                            await tournamentProvider
+                                                .subscribeToTournament(
+                                                    authProvider.auth.access!,
+                                                    tournamentProvider
+                                                        .tournament.id,
+                                                    _model.teamMateController
+                                                        .text);
+
+                                        if (response == 'success') {
+                                          GoRouter.of(context).push(
+                                            '/home/true/none',
+                                            extra: {
+                                              "comesFromDirectLink": false,
+                                            },
+                                          );
+                                        }
+                                      }
                                     },
                                     text: '¡Queremos participar!',
                                     options: FFButtonOptions(

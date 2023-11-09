@@ -21,7 +21,7 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
   late ChallengePlayerModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  String? time;
   @override
   void initState() {
     super.initState();
@@ -240,7 +240,7 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
                                               Text(
                                                 valueOrDefault<String>(
                                                   dateTimeFormat(
-                                                    'd/M',
+                                                    'dd/MM/yyyy',
                                                     _model.datePicked,
                                                     locale: FFLocalizations.of(
                                                             context)
@@ -293,6 +293,23 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
                                         if (_hourPicked != null) {
                                           safeSetState(() {
                                             _model.hourPicked = _hourPicked;
+                                            if (_model.hourPicked!.minute
+                                                    .toString()
+                                                    .length >
+                                                1) {
+                                              time = _model.hourPicked!.hour
+                                                      .toString() +
+                                                  ':' +
+                                                  _model.hourPicked!.minute
+                                                      .toString();
+                                            } else {
+                                              time = _model.hourPicked!.hour
+                                                      .toString() +
+                                                  ':' +
+                                                  _model.hourPicked!.minute
+                                                      .toString() +
+                                                  '0';
+                                            }
                                           });
                                         }
                                       },
@@ -323,14 +340,7 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
                                             children: [
                                               Text(
                                                 valueOrDefault<String>(
-                                                  _model.hourPicked != null
-                                                      ? _model.hourPicked!.hour
-                                                              .toString() +
-                                                          ':' +
-                                                          _model.hourPicked!
-                                                              .minute
-                                                              .toString()
-                                                      : null,
+                                                  time != null ? time : null,
                                                   'Selecciona una hora',
                                                 ),
                                                 style:
@@ -355,13 +365,13 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
                             ),
                           ],
                         ),
-                        if (_model.error.isNotEmpty)
+                        if (challengeProvider.error.isNotEmpty)
                           Center(
                               child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 16.0, 0.0, 0.0),
                                   child: Text(
-                                    _model.error,
+                                    challengeProvider.error,
                                     style: TextStyle(color: Colors.red),
                                   ))),
                         Padding(
@@ -388,7 +398,7 @@ class _ChallengePlayerWidgetState extends State<ChallengePlayerWidget> {
                                         _model.hourPicked!);
 
                                 if (response) {
-                                  context.pushNamed('userProfile');
+                                  context.pop();
                                 }
                               }
                             },

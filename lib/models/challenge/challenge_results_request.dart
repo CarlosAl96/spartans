@@ -6,6 +6,6 @@ class ChallengeResultsRequest {
   ChallengeResultsRequest({this.winner = '', this.sets = const [{}]});
   Map<String, dynamic> toJson() => {
         'winning_player': this.winner,
-        'sets': jsonEncode(this.sets),
+        'sets': this.sets,
       };
 }

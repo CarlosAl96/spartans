@@ -19,7 +19,8 @@ class AuthController extends ChangeNotifier {
             jsonDecode(response.body) as Map<String, dynamic>));
         error = '';
       } else {
-        error = (jsonDecode(response.body) as Map<String, dynamic>)["message"];
+        error = (jsonDecode(utf8.decode(response.bodyBytes))
+            as Map<String, dynamic>)["message"];
       }
     } catch (e) {
       error = e.toString();
@@ -31,6 +32,7 @@ class AuthController extends ChangeNotifier {
   void setAuth(AuthResponseModel auth) {
     this.auth = auth;
     print(this.auth.refresh);
+    notifyListeners();
   }
 
   Future<String> recoveryPassword(String email) async {

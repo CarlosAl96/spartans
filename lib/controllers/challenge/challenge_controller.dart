@@ -42,7 +42,12 @@ class ChallengeController extends ChangeNotifier {
       );
 
       if (response.statusCode == 201) {
+        error = '';
         status = true;
+      }
+      if (response.statusCode == 400) {
+        error = (jsonDecode(utf8.decode(response.bodyBytes))
+            as Map<String, dynamic>)["message"];
       }
     } catch (e) {
       print(e);
@@ -130,14 +135,20 @@ class ChallengeController extends ChangeNotifier {
 
       final response = await http.patch(
         uri,
-        body: request.toJson(),
+        body: jsonEncode(request.toJson()),
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': 'Bearer $accessToken',
         },
       );
 
       if (response.statusCode == 202) {
+        error = '';
         status = true;
+      }
+      if (response.statusCode == 400) {
+        error = (jsonDecode(utf8.decode(response.bodyBytes))
+            as Map<String, dynamic>)["message"];
       }
     } catch (e) {
       print(e);

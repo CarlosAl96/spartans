@@ -1,3 +1,4 @@
+import 'package:spartans/controllers/auth/auth_controller.dart';
 import 'package:spartans/controllers/users/usersList_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -40,6 +41,7 @@ class _RankingWidgetState extends State<RankingWidget> {
     context.watch<FFAppState>();
 
     final usersProvider = context.watch<UsersListController>();
+    final authProvider = context.watch<AuthController>();
 
     return Title(
         title: 'Ranking',
@@ -111,6 +113,10 @@ class _RankingWidgetState extends State<RankingWidget> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             children: usersProvider.usersList.map((e) {
+                              String name = e.name + ' ' + e.lastName!;
+                              if (e.id == authProvider.auth.user!.id) {
+                                name += ' (Tú)';
+                              }
                               return Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 4.0, 16.0, 8.0),
@@ -160,7 +166,7 @@ class _RankingWidgetState extends State<RankingWidget> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  e.name + ' ' + e.lastName!,
+                                                  name,
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium,

@@ -779,6 +779,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                                       platformFile!,
                                                       data);
                                           if (response.containsKey('user')) {
+                                            response['access'] =
+                                                authProvider.auth.access;
+                                            response['refresh'] =
+                                                authProvider.auth.refresh;
                                             authProvider.setAuth(
                                                 AuthResponseModel.fromJson(
                                                     response));

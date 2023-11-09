@@ -6,6 +6,7 @@ import 'package:spartans/controllers/auth/auth_controller.dart';
 import 'package:spartans/controllers/auth/register_controller.dart';
 import 'package:spartans/controllers/challenge/accept_challenge_controller.dart';
 import 'package:spartans/controllers/challenge/challenge_controller.dart';
+import 'package:spartans/controllers/tournament/tournament_controller.dart';
 import 'package:spartans/controllers/users/usersList_controller.dart';
 import '/backend/supabase/supabase.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -85,6 +86,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => AcceptChallengeController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TournamentController(),
         ),
       ],
       child: MaterialApp.router(

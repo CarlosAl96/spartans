@@ -369,6 +369,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                       0.0, 0.0, 10.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
+                                      challengeProvider.error = '';
+                                      challengeProvider.notifyListeners();
                                       context.pushNamed('challengePlayer');
                                     },
                                     text: '¡Quiero Retarle!',

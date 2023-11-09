@@ -448,7 +448,7 @@ class _MatchResultsWidgetState extends State<MatchResultsWidget> {
 
                                             if (value !=
                                                     authProvider
-                                                        .auth.user!.email ||
+                                                        .auth.user!.email &&
                                                 value !=
                                                     usersProvider
                                                         .userProfile.email) {
@@ -1265,7 +1265,7 @@ class _MatchResultsWidgetState extends State<MatchResultsWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 16.0, 0.0, 0.0),
                                     child: Text(
-                                      authProvider.error,
+                                      challengeProvider.error,
                                       style: TextStyle(color: Colors.red),
                                     ))),
                           Padding(
