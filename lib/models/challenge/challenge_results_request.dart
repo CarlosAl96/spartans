@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ChallengeResultsRequest {
   String winner = '';
   List<Map<String, dynamic>> sets;
